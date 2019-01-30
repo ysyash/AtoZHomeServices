@@ -1,0 +1,151 @@
+<!--h1>Welcome {{name}}</h1>
+<base href="/"><link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+<script>
+      $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+      });
+  </script>
+  
+  <table>
+  <input id="myInput" type="text" placeholder="Search..">
+  <tbody id="myTable">
+  <div class="row">
+    <div class="col s12">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title"></span>
+          <table class ="aaa">
+<tr>
+  <th>from</th>
+
+  <th>to</th>
+</tr>
+
+{% for item in values %}
+<tr>
+  <td>{{item.t_name}}</td>
+  <td>{{item.t_phone_no}}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+</div>
+</div>
+  </div>
+</tbody>
+</table-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1;
+}
+</style>
+</head>
+<body>
+
+<h1 align="center">Tasker list</h1>
+<h4 align="center">Type:{{ type }}</h4>
+<h4 align="center"> Location:{{ location }}</h4>
+
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+
+<table id="myTable">
+  <tr class="header">
+    <th style="width:40%;">Name</th>
+    <th style="width:30%;">Rate</th>
+    <th style="width:30%;">View Profile</th>
+  </tr>
+  {% for item in values %}
+  <form action="/view_tasker/" method="post">{% csrf_token %}
+  <tr>
+     <td>{{item.t_name}}</td>
+     <td>{{item.t_rupee}}</td>
+     <td><button>View</button></td>
+  </tr>
+  <input type="hidden" name="taskername" value={{item.t_name}}>
+  </form>
+{% endfor %}
+</table>
+
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText ;
+      
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+</script>
+</body>
+</html>
